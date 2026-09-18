@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Config & Personal History
+config.json
+history.json
+
+# Media & Temp files
+*.mp4
+*.m4a
+*.webm
+*.part
+*.zip
+
+# External binaries (FFmpeg)
+ffmpeg.exe
+ffprobe.exe
+
+# Note drafts & internal requirements
+note.com_*.md
+*要件*.md
+
