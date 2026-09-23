@@ -78,18 +78,18 @@ If you prefer to set up dependencies manually:
    pip install -U yt-dlp
    ```
 2. Download the latest `ffmpeg-release-essentials.zip` from [Gyan.dev](https://www.gyan.dev/ffmpeg/builds/).
-3. Extract and copy **`ffmpeg.exe`** and **`ffprobe.exe`** from the `bin/` folder directly into the `WebMovieGet` root folder (next to `YoutubeMovieGet.pyw`).
+3. Extract and copy **`ffmpeg.exe`** and **`ffprobe.exe`** from the `bin/` folder directly into the `WebMovieGet` root folder (next to `WebMovieGet.pyw`).
 
 ---
 
 ## 🖥️ How to Run
 
 1. Open the project folder.
-2. Double-click **`run.bat`** (or run `python YoutubeMovieGet.pyw` in your terminal).
+2. Double-click **`run.bat`** (or run `python WebMovieGet.pyw` in your terminal).
 3. The desktop GUI will launch immediately!
 
 ```cmd
-python YoutubeMovieGet.pyw
+python WebMovieGet.pyw
 ```
 
 ---
@@ -104,7 +104,7 @@ pip install -U yt-dlp
 If bot checks persist, enable the **Browser Cookie** setting in the app and select your active browser (Edge / Chrome).
 
 ### Q: "FFmpeg not found" or downloaded video is low resolution (360p)
-Ensure that `ffmpeg.exe` and `ffprobe.exe` are placed directly in the same folder as `YoutubeMovieGet.pyw`. Without FFmpeg, high-definition streams (1080p+) cannot be muxed with audio.
+Ensure that `ffmpeg.exe` and `ffprobe.exe` are placed directly in the same folder as `WebMovieGet.pyw`. Without FFmpeg, high-definition streams (1080p+) cannot be muxed with audio.
 
 ---
 

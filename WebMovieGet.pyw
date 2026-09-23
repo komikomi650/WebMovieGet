@@ -49,10 +49,141 @@ except ImportError:
             pass
         sys.exit(1)
 
-class YoutubeDownloaderApp:
+# 多言語辞書 (i18n: 日英対応)
+I18N = {
+    "ja": {
+        "app_title": "かんたん 動画保存 (WebMovieGet)",
+        "header_title": "📥 かんたん 動画保存",
+        "header_desc": "WEB動画のURL（アドレス）を貼り付けて「動画の保存を開始する」を押すだけで保存できます。",
+        "step1_title": "手順 1： 保存したい動画のアドレス（URL）を貼り付ける",
+        "step1_sub": "※ 複数の動画を一度に保存したい場合は、1行に1つずつ貼り付けてください。",
+        "step2_title": "手順 2： 動画を保存する場所（フォルダ）を確認する",
+        "btn_change_dir": "📂 場所を変える",
+        "btn_download": "🚀 動画の保存を開始する（ダウンロード）",
+        "btn_downloading": "保存を実行しています...",
+        "progress_title": "保存の状況",
+        "status_idle": "待機中：上の入力欄にURLを入れてボタンを押してください。",
+        "history_title": "📋 保存した履歴 (過去20件)",
+        "btn_clear_history": "🧹 履歴をすべて消す",
+        "btn_open_dir": "📂 保存したフォルダを開く",
+        "btn_clear_input": "🧹 入力を消す",
+        "lang_btn_text": "🌐 English",
+        "context_paste": "📋 貼り付け",
+        "context_cut": "✂️ 切り取り",
+        "context_copy": "📄 コピー",
+        "context_select_all": "☑️ すべて選択",
+        "context_clear": "🧹 クリア",
+        "history_empty": "保存した履歴はありません。",
+        "history_status_ok": "🟢 正常",
+        "history_status_fail": "🔴 失敗",
+        "btn_play": "▶ 再生する",
+        "dialog_history_clear_title": "履歴のクリア",
+        "dialog_history_clear_msg": "ダウンロード履歴をすべて消去しますか？\n（動画ファイル自体は削除されません）",
+        "dialog_play_err_title": "エラー",
+        "dialog_play_no_path": "保存先のファイルパスが記録されていません。",
+        "dialog_play_failed": "動画の再生に失敗しました。\n詳細: {err}",
+        "dialog_file_not_found_title": "ファイルが見つかりません",
+        "dialog_file_not_found_msg": "動画ファイルが見つかりません。\nファイルが移動されたか、削除された可能性があります。\n保存先フォルダをご確認ください。",
+        "dialog_select_dir_title": "保存するフォルダを選択してください",
+        "log_dir_changed": "保存先を {path} に変更し、固定しました。",
+        "dialog_dir_not_found": "保存先フォルダが見つかりません。",
+        "dialog_warning_title": "警告",
+        "dialog_downloading_cannot_clear": "保存処理中は入力をクリアできません。",
+        "log_ready": "[準備完了] 保存を開始できます",
+        "dialog_input_err_title": "入力エラー",
+        "dialog_no_urls": "動画のURLが入力されていません。\n手順1の枠内にURLを貼り付けてください。",
+        "log_start_all": "=== 保存処理を開始します ===",
+        "log_fetching_info": "[{curr}/{total}] 動画の情報を取得しています...",
+        "title_unknown": "不明なタイトル",
+        "title_fetch_failed": "動画タイトルを取得できませんでした",
+        "log_title": "タイトル: {title}",
+        "status_downloading_url": "[{curr}/{total}] 動画を保存中... (アドレス: {url}...)",
+        "log_start_item": "\n--- {curr}本目の保存処理を開始 ---",
+        "status_downloading_title": "[{curr}/{total}] 保存中: {title}",
+        "status_progress": "[{curr}/{total}] 保存中: {percent:.1f}% (速度: {speed} | 残り時間: {eta})",
+        "status_merging": "[{curr}/{total}] 画質と音声を綺麗に結合しています... しばらくお待ちください",
+        "log_merging": "動画と音声を綺麗に結合しています...",
+        "log_success_item": "【保存完了】「{title}」を保存しました！",
+        "log_error_item": "【保存失敗】エラー内容: {err}",
+        "status_finished_result": "処理終了： {total}件中 {success}件の保存に成功しました！",
+        "log_open_dir_hint": "下の「保存したフォルダを開く」ボタンを押すと動画を確認できます。",
+        "dialog_finish_success_title": "完了",
+        "dialog_finish_success_msg": "動画の保存が完了しました！\n（成功 {success}件 / 全体 {total}件）",
+        "dialog_finish_fail_title": "失敗",
+        "dialog_finish_fail_msg": "動画の保存に失敗しました。詳細ログを確認してください。",
+        "err_bot": "YouTubeによるロボット確認（認証制限）が発生しました。",
+        "err_network": "インターネットに接続されていないか、アドレスが間違っています。",
+        "err_disconnect": "通信が切断されました。もう一度お試しください。"
+    },
+    "en": {
+        "app_title": "WebMovieGet - Video Downloader",
+        "header_title": "📥 WebMovieGet",
+        "header_desc": "Paste web video URLs and click 'Start Download' to easily save videos to your PC.",
+        "step1_title": "Step 1: Paste video URLs to download",
+        "step1_sub": "* Paste one URL per line to download multiple videos sequentially.",
+        "step2_title": "Step 2: Confirm save location (folder)",
+        "btn_change_dir": "📂 Browse Folder",
+        "btn_download": "🚀 Start Download",
+        "btn_downloading": "Downloading... Please wait",
+        "progress_title": "Download Progress",
+        "status_idle": "Idle: Paste video URLs above and click Start Download.",
+        "history_title": "📋 Download History (Recent 20)",
+        "btn_clear_history": "🧹 Clear History",
+        "btn_open_dir": "📂 Open Save Folder",
+        "btn_clear_input": "🧹 Clear Input",
+        "lang_btn_text": "🌐 日本語",
+        "context_paste": "📋 Paste",
+        "context_cut": "✂️ Cut",
+        "context_copy": "📄 Copy",
+        "context_select_all": "☑️ Select All",
+        "context_clear": "🧹 Clear",
+        "history_empty": "No download history yet.",
+        "history_status_ok": "🟢 Success",
+        "history_status_fail": "🔴 Failed",
+        "btn_play": "▶ Play",
+        "dialog_history_clear_title": "Clear History",
+        "dialog_history_clear_msg": "Are you sure you want to clear the download history?\n(Downloaded video files will not be deleted)",
+        "dialog_play_err_title": "Error",
+        "dialog_play_no_path": "No file path recorded for this video.",
+        "dialog_play_failed": "Failed to play video.\nDetails: {err}",
+        "dialog_file_not_found_title": "File Not Found",
+        "dialog_file_not_found_msg": "Video file not found.\nThe file may have been moved or deleted.\nPlease check your save folder.",
+        "dialog_select_dir_title": "Select a folder to save videos",
+        "log_dir_changed": "Save location changed to: {path}",
+        "dialog_dir_not_found": "Save folder not found.",
+        "dialog_warning_title": "Warning",
+        "dialog_downloading_cannot_clear": "Cannot clear input while download is in progress.",
+        "log_ready": "[Ready] Waiting for download",
+        "dialog_input_err_title": "Input Error",
+        "dialog_no_urls": "No video URLs provided.\nPlease paste video URLs into Step 1.",
+        "log_start_all": "=== Starting download process ===",
+        "log_fetching_info": "[{curr}/{total}] Fetching video information...",
+        "title_unknown": "Unknown Title",
+        "title_fetch_failed": "Could not retrieve video title",
+        "log_title": "Title: {title}",
+        "status_downloading_url": "[{curr}/{total}] Downloading... (URL: {url}...)",
+        "log_start_item": "\n--- Starting download {curr}/{total} ---",
+        "status_downloading_title": "[{curr}/{total}] Downloading: {title}",
+        "status_progress": "[{curr}/{total}] Downloading: {percent:.1f}% (Speed: {speed} | ETA: {eta})",
+        "status_merging": "[{curr}/{total}] Merging video and audio streams... Please wait",
+        "log_merging": "Muxing high-definition video and audio streams...",
+        "log_success_item": "[Completed] Successfully saved: {title}",
+        "log_error_item": "[Failed] Error details: {err}",
+        "status_finished_result": "Finished: Successfully saved {success} of {total} videos!",
+        "log_open_dir_hint": "Click 'Open Save Folder' below to view your downloaded videos.",
+        "dialog_finish_success_title": "Complete",
+        "dialog_finish_success_msg": "Download complete!\n(Success: {success} / Total: {total})",
+        "dialog_finish_fail_title": "Failed",
+        "dialog_finish_fail_msg": "Download failed. Please check the log details.",
+        "err_bot": "YouTube bot verification triggered.",
+        "err_network": "Network connection error or invalid address.",
+        "err_disconnect": "Connection disconnected. Please try again."
+    }
+}
+
+class WebMovieDownloaderApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("かんたん 動画保存")
         self.root.geometry("1020x760")
         self.root.configure(bg="#F1F5F9")  # Soft gray-blue background
         
@@ -63,8 +194,9 @@ class YoutubeDownloaderApp:
             base_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
         self.config_file = os.path.join(base_dir, "config.json")
         
-        # Determine save directory (load from config if saved, else Downloads folder)
-        self.save_dir = self.load_saved_directory()
+        # Load settings from config.json (save_dir and lang)
+        self.save_dir, self.current_lang = self.load_config()
+        self.root.title(self.t("app_title"))
         
         # Thread communication queue
         self.queue = queue.Queue()
@@ -81,32 +213,115 @@ class YoutubeDownloaderApp:
         # Set up GUI components
         self.create_widgets()
         
+        # Apply current language text across widgets
+        self.apply_language()
+        
         # Draw history items in UI
         self.update_history_ui()
         
         # Start queue polling
         self.poll_queue()
 
-    def load_saved_directory(self):
-        """Load saved directory from config.json, fallback to Downloads folder."""
+    def t(self, key, **kwargs):
+        """Translate key based on current_lang."""
+        dict_data = I18N.get(self.current_lang, I18N["ja"])
+        text = dict_data.get(key, I18N["ja"].get(key, key))
+        if kwargs:
+            try:
+                text = text.format(**kwargs)
+            except Exception:
+                pass
+        return text
+
+    def toggle_language(self):
+        """Toggle between Japanese and English."""
+        self.current_lang = "en" if self.current_lang == "ja" else "ja"
+        self.save_config()
+        self.apply_language()
+
+    def update_context_menu(self):
+        """Update context menu items with current language."""
+        if not hasattr(self, 'url_context_menu'):
+            return
+        self.url_context_menu.delete(0, "end")
+        self.url_context_menu.add_command(label=self.t("context_paste"), command=self.paste_from_clipboard)
+        self.url_context_menu.add_command(label=self.t("context_cut"), command=lambda: self.url_text.event_generate("<<Cut>>"))
+        self.url_context_menu.add_command(label=self.t("context_copy"), command=lambda: self.url_text.event_generate("<<Copy>>"))
+        self.url_context_menu.add_separator()
+        self.url_context_menu.add_command(label=self.t("context_select_all"), command=self.select_all_url_text)
+        self.url_context_menu.add_command(label=self.t("context_clear"), command=lambda: self.url_text.delete("1.0", "end"))
+
+    def apply_language(self):
+        """Update all UI texts based on current_lang."""
+        if not hasattr(self, 'header_label'):
+            return
+        self.root.title(self.t("app_title"))
+        self.header_label.config(text=self.t("header_title"))
+        self.desc_label.config(text=self.t("header_desc"))
+        self.lang_btn.config(text=self.t("lang_btn_text"))
+        self.step1_title.config(text=self.t("step1_title"))
+        self.step1_sub.config(text=self.t("step1_sub"))
+        self.step2_title.config(text=self.t("step2_title"))
+        self.change_dir_btn.config(text=self.t("btn_change_dir"))
+        if not self.is_downloading:
+            self.download_btn.config(text=self.t("btn_download"))
+        else:
+            self.download_btn.config(text=self.t("btn_downloading"))
+        self.progress_title.config(text=self.t("progress_title"))
+        if not self.is_downloading and not self.urls_to_download:
+            self.status_label.config(text=self.t("status_idle"))
+        self.history_title.config(text=self.t("history_title"))
+        self.clear_history_btn.config(text=self.t("btn_clear_history"))
+        self.open_dir_btn.config(text=self.t("btn_open_dir"))
+        self.clear_btn.config(text=self.t("btn_clear_input"))
+        self.update_context_menu()
+        self.update_history_ui()
+
+    def load_config(self):
+        """Load directory and language settings, with OS auto-detection fallback."""
+        saved_path = ""
+        saved_lang = ""
         if os.path.exists(self.config_file):
             try:
                 with open(self.config_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     saved_path = data.get("save_dir", "")
-                    if saved_path and os.path.exists(saved_path):
-                        return saved_path
+                    saved_lang = data.get("lang", "")
             except Exception:
                 pass
-        return self.get_downloads_folder()
+        
+        # Save dir fallback
+        if not saved_path or not os.path.exists(saved_path):
+            saved_path = self.get_downloads_folder()
+            
+        # Language fallback (Auto-detect from OS if not specified)
+        if saved_lang in ("ja", "en"):
+            lang = saved_lang
+        else:
+            import locale
+            try:
+                loc = locale.getdefaultlocale()[0] or ""
+                lang = "ja" if loc.lower().startswith("ja") else "en"
+            except Exception:
+                lang = "ja"
+                
+        return saved_path, lang
+
+    def save_config(self):
+        """Save settings (save_dir and lang) to config.json."""
+        try:
+            with open(self.config_file, "w", encoding="utf-8") as f:
+                json.dump({
+                    "save_dir": self.save_dir,
+                    "lang": self.current_lang
+                }, f, indent=2, ensure_ascii=False)
+        except Exception:
+            pass
 
     def save_directory_setting(self, path):
         """Save directory choice to config.json for persistence."""
-        try:
-            with open(self.config_file, "w", encoding="utf-8") as f:
-                json.dump({"save_dir": path}, f, indent=2, ensure_ascii=False)
-        except Exception:
-            pass
+        self.save_dir = path
+        self.save_config()
 
     def get_downloads_folder(self):
         """Get the user's Downloads folder path on Windows, with fallbacks."""
@@ -143,25 +358,43 @@ class YoutubeDownloaderApp:
         header_frame = tk.Frame(self.root, bg="#FFFFFF", bd=0, highlightthickness=0)
         header_frame.pack(fill="x", padx=0, pady=0)
         
-        header_label = tk.Label(
-            header_frame, 
-            text="📥 かんたん 動画保存", 
+        header_top = tk.Frame(header_frame, bg="#FFFFFF")
+        header_top.pack(fill="x", padx=25, pady=(20, 5))
+
+        self.header_label = tk.Label(
+            header_top, 
+            text=self.t("header_title"), 
             font=("MS Gothic", 20, "bold"), 
             bg="#FFFFFF", 
             fg="#1E3A8A",  # Dark Blue
             anchor="w"
         )
-        header_label.pack(fill="x", padx=25, pady=(20, 5))
+        self.header_label.pack(side="left")
+
+        self.lang_btn = tk.Button(
+            header_top,
+            text=self.t("lang_btn_text"),
+            font=("Yu Gothic", 10, "bold"),
+            bg="#F1F5F9",
+            fg="#1E293B",
+            activebackground="#E2E8F0",
+            relief="flat",
+            bd=0,
+            command=self.toggle_language,
+            cursor="hand2"
+        )
+        self.lang_btn.pack(side="right", ipady=4, ipadx=10)
+        self.make_button_hoverable(self.lang_btn, "#E2E8F0", "#F1F5F9")
         
-        desc_label = tk.Label(
+        self.desc_label = tk.Label(
             header_frame, 
-            text="WEB動画のURL（アドレス）を貼り付けて「動画の保存を開始する」を押すだけで保存できます。", 
+            text=self.t("header_desc"), 
             font=("Yu Gothic", 11), 
             bg="#FFFFFF", 
             fg="#475569",  # Slate gray
             anchor="w"
         )
-        desc_label.pack(fill="x", padx=25, pady=(0, 20))
+        self.desc_label.pack(fill="x", padx=25, pady=(0, 20))
         
         # Separator line
         sep = tk.Frame(self.root, height=1, bg="#E2E8F0")
@@ -183,25 +416,25 @@ class YoutubeDownloaderApp:
         card_url_inner = tk.Frame(card_url, bg="#FFFFFF", padx=15, pady=15)
         card_url_inner.pack(fill="both", expand=True)
         
-        step1_title = tk.Label(
+        self.step1_title = tk.Label(
             card_url_inner, 
-            text="手順 1： 保存したい動画のアドレス（URL）を貼り付ける", 
+            text=self.t("step1_title"), 
             font=("Yu Gothic", 13, "bold"), 
             bg="#FFFFFF", 
             fg="#0F172A",
             anchor="w"
         )
-        step1_title.pack(fill="x", pady=(0, 5))
+        self.step1_title.pack(fill="x", pady=(0, 5))
         
-        step1_sub = tk.Label(
+        self.step1_sub = tk.Label(
             card_url_inner, 
-            text="※ 複数の動画を一度に保存したい場合は、1行に1つずつ貼り付けてください。", 
+            text=self.t("step1_sub"), 
             font=("Yu Gothic", 10), 
             bg="#FFFFFF", 
             fg="#64748B",
             anchor="w"
         )
-        step1_sub.pack(fill="x", pady=(0, 10))
+        self.step1_sub.pack(fill="x", pady=(0, 10))
         
         # URL Text box
         self.url_text = tk.Text(
@@ -219,12 +452,7 @@ class YoutubeDownloaderApp:
         
         # Context menu (Right-click menu) for URL input
         self.url_context_menu = tk.Menu(self.url_text, tearoff=0, font=("Yu Gothic", 10))
-        self.url_context_menu.add_command(label="📋 貼り付け", command=self.paste_from_clipboard)
-        self.url_context_menu.add_command(label="✂️ 切り取り", command=lambda: self.url_text.event_generate("<<Cut>>"))
-        self.url_context_menu.add_command(label="📄 コピー", command=lambda: self.url_text.event_generate("<<Copy>>"))
-        self.url_context_menu.add_separator()
-        self.url_context_menu.add_command(label="☑️ すべて選択", command=self.select_all_url_text)
-        self.url_context_menu.add_command(label="🧹 クリア", command=lambda: self.url_text.delete("1.0", "end"))
+        self.update_context_menu()
         
         # Bind right-click event
         self.url_text.bind("<Button-3>", self.show_context_menu)
@@ -233,15 +461,15 @@ class YoutubeDownloaderApp:
         card_dir = tk.Frame(left_container, bg="#FFFFFF", padx=15, pady=15)
         card_dir.pack(fill="x", pady=(0, 15))
         
-        step2_title = tk.Label(
+        self.step2_title = tk.Label(
             card_dir, 
-            text="手順 2： 動画を保存する場所（フォルダ）を確認する", 
+            text=self.t("step2_title"), 
             font=("Yu Gothic", 13, "bold"), 
             bg="#FFFFFF", 
             fg="#0F172A",
             anchor="w"
         )
-        step2_title.pack(fill="x", pady=(0, 10))
+        self.step2_title.pack(fill="x", pady=(0, 10))
         
         dir_selector_frame = tk.Frame(card_dir, bg="#FFFFFF")
         dir_selector_frame.pack(fill="x")
@@ -262,7 +490,7 @@ class YoutubeDownloaderApp:
         # Change Folder Button
         self.change_dir_btn = tk.Button(
             dir_selector_frame, 
-            text="📂 場所を変える", 
+            text=self.t("btn_change_dir"), 
             font=("Yu Gothic", 11, "bold"), 
             bg="#E2E8F0", 
             fg="#1E293B", 
@@ -279,7 +507,7 @@ class YoutubeDownloaderApp:
         # Card 3: Download Button
         self.download_btn = tk.Button(
             left_container, 
-            text="🚀 動画の保存を開始する（ダウンロード）", 
+            text=self.t("btn_download"), 
             font=("Yu Gothic", 16, "bold"), 
             bg="#22C55E", 
             fg="#FFFFFF", 
@@ -299,7 +527,7 @@ class YoutubeDownloaderApp:
         
         self.progress_title = tk.Label(
             self.card_progress, 
-            text="保存の状況", 
+            text=self.t("progress_title"), 
             font=("Yu Gothic", 13, "bold"), 
             bg="#FFFFFF", 
             fg="#0F172A",
@@ -309,7 +537,7 @@ class YoutubeDownloaderApp:
         
         self.status_label = tk.Label(
             self.card_progress, 
-            text="待機中：上の入力欄にURLを入れてボタンを押してください。", 
+            text=self.t("status_idle"), 
             font=("Yu Gothic", 11), 
             bg="#FFFFFF", 
             fg="#475569", 
@@ -362,15 +590,15 @@ class YoutubeDownloaderApp:
         right_container.pack(side="left", fill="both", expand=False)
         right_container.pack_propagate(False)
         
-        history_title = tk.Label(
+        self.history_title = tk.Label(
             right_container, 
-            text="📋 保存した履歴 (過去20件)", 
+            text=self.t("history_title"), 
             font=("Yu Gothic", 13, "bold"), 
             bg="#F1F5F9", 
             fg="#0F172A",
             anchor="w"
         )
-        history_title.pack(fill="x", pady=(0, 10))
+        self.history_title.pack(fill="x", pady=(0, 10))
         
         # Scrollable area container
         canvas_border = tk.Frame(right_container, bg="#E2E8F0", padx=1, pady=1)
@@ -394,7 +622,7 @@ class YoutubeDownloaderApp:
         # Clear History Button
         self.clear_history_btn = tk.Button(
             right_container, 
-            text="🧹 履歴をすべて消す", 
+            text=self.t("btn_clear_history"), 
             font=("Yu Gothic", 11), 
             bg="#F1F5F9", 
             fg="#64748B", 
@@ -421,7 +649,7 @@ class YoutubeDownloaderApp:
         
         self.open_dir_btn = tk.Button(
             footer_buttons_container, 
-            text="📂 保存したフォルダを開く", 
+            text=self.t("btn_open_dir"), 
             font=("Yu Gothic", 12, "bold"), 
             bg="#3B82F6", 
             fg="#FFFFFF", 
@@ -437,7 +665,7 @@ class YoutubeDownloaderApp:
         
         self.clear_btn = tk.Button(
             footer_buttons_container, 
-            text="🧹 入力を消す", 
+            text=self.t("btn_clear_input"), 
             font=("Yu Gothic", 12), 
             bg="#94A3B8", 
             fg="#FFFFFF", 
@@ -505,7 +733,7 @@ class YoutubeDownloaderApp:
     def clear_history(self):
         if not self.history_data:
             return
-        if not messagebox.askyesno("履歴のクリア", "ダウンロード履歴をすべて消去しますか？\n（動画ファイル自体は削除されません）"):
+        if not messagebox.askyesno(self.t("dialog_history_clear_title"), self.t("dialog_history_clear_msg")):
             return
             
         self.history_data = []
@@ -525,10 +753,10 @@ class YoutubeDownloaderApp:
         if not self.history_data:
             placeholder = tk.Label(
                 self.history_inner_frame, 
-                text="保存した履歴はありません。", 
+                text=self.t("history_empty"), 
                 font=("Yu Gothic", 11), 
                 bg="#FFFFFF", 
-                fg="#64748B",
+                fg="#64748B", 
                 pady=40
             )
             placeholder.pack(fill="x")
@@ -557,7 +785,7 @@ class YoutubeDownloaderApp:
                 text=title, 
                 font=("Yu Gothic", 11, "bold"), 
                 bg="#F8FAFC", 
-                fg="#0F172A",
+                fg="#0F172A", 
                 anchor="w", 
                 justify="left", 
                 wraplength=260
@@ -568,11 +796,11 @@ class YoutubeDownloaderApp:
             info_frame.pack(fill="x")
             
             status = item.get("status", "正常")
-            if status == "正常":
-                status_text = "🟢 正常"
+            if status in ("正常", "Success", "OK"):
+                status_text = self.t("history_status_ok")
                 status_color = "#16A34A"
             else:
-                status_text = "🔴 失敗"
+                status_text = self.t("history_status_fail")
                 status_color = "#DC2626"
                 
             status_lbl = tk.Label(
@@ -595,16 +823,16 @@ class YoutubeDownloaderApp:
             )
             time_lbl.pack(side="left")
             
-            if status == "正常":
+            if status in ("正常", "Success", "OK"):
                 filepath = item.get("filepath", "")
                 play_btn = tk.Button(
                     card_inner, 
-                    text="▶ 再生する", 
+                    text=self.t("btn_play"), 
                     font=("Yu Gothic", 10, "bold"), 
                     bg="#E2E8F0", 
                     fg="#1E293B", 
                     activebackground="#CBD5E1", 
-                    activeforeground="#1E293B",
+                    activeforeground="#1E293B", 
                     relief="flat", 
                     bd=0, 
                     command=lambda path=filepath: self.play_video(path),
@@ -615,18 +843,18 @@ class YoutubeDownloaderApp:
 
     def play_video(self, filepath):
         if not filepath:
-            messagebox.showerror("エラー", "保存先のファイルパスが記録されていません。")
+            messagebox.showerror(self.t("dialog_play_err_title"), self.t("dialog_play_no_path"))
             return
             
         if os.path.exists(filepath):
             try:
                 os.startfile(filepath)
             except Exception as e:
-                messagebox.showerror("エラー", f"動画の再生に失敗しました。\n詳細: {e}")
+                messagebox.showerror(self.t("dialog_play_err_title"), self.t("dialog_play_failed", err=e))
         else:
             messagebox.showwarning(
-                "ファイルが見つかりません", 
-                "動画ファイルが見つかりません。\nファイルが移動されたか、削除された可能性があります。\n保存先フォルダをご確認ください。"
+                self.t("dialog_file_not_found_title"), 
+                self.t("dialog_file_not_found_msg")
             )
 
     def append_log(self, text, tag=None):
@@ -659,33 +887,33 @@ class YoutubeDownloaderApp:
 
     def change_save_directory(self):
         """Open a directory selection dialog to update save folder."""
-        selected_dir = filedialog.askdirectory(initialdir=self.save_dir, title="保存するフォルダを選択してください")
+        selected_dir = filedialog.askdirectory(initialdir=self.save_dir, title=self.t("dialog_select_dir_title"))
         if selected_dir:
             self.save_dir = os.path.abspath(selected_dir)
             self.dir_entry_val.set(self.save_dir)
             self.save_directory_setting(self.save_dir)
-            self.append_log(f"保存先を {self.save_dir} に変更し、固定しました。", "info")
+            self.append_log(self.t("log_dir_changed", path=self.save_dir), "info")
 
     def open_save_directory(self):
         """Open the current save folder in Windows Explorer."""
         if os.path.exists(self.save_dir):
             os.startfile(self.save_dir)
         else:
-            messagebox.showerror("エラー", "保存先フォルダが見つかりません。")
+            messagebox.showerror(self.t("dialog_play_err_title"), self.t("dialog_dir_not_found"))
 
     def clear_all(self):
         """Clear URL list, input box, and logs."""
         if self.is_downloading:
-            messagebox.showwarning("警告", "保存処理中は入力をクリアできません。")
+            messagebox.showwarning(self.t("dialog_warning_title"), self.t("dialog_downloading_cannot_clear"))
             return
         self.url_text.delete("1.0", "end")
-        self.status_label.config(text="待機中：上の入力欄にURLを入れてボタンを押してください。", fg="#475569")
+        self.status_label.config(text=self.t("status_idle"), fg="#475569")
         self.progress_bar['value'] = 0
         
         self.log_text.config(state="normal")
         self.log_text.delete("1.0", "end")
         self.log_text.config(state="disabled")
-        self.append_log("[準備完了] 保存を開始できます", "success")
+        self.append_log(self.t("log_ready"), "success")
 
     def start_download_process(self):
         """Read URLs and kick off the download thread."""
@@ -697,7 +925,7 @@ class YoutubeDownloaderApp:
         urls = [u.strip() for u in raw_text.split("\n") if u.strip()]
         
         if not urls:
-            messagebox.showwarning("入力エラー", "動画のURLが入力されていません。\n手順1の枠内にURLを貼り付けてください。")
+            messagebox.showwarning(self.t("dialog_input_err_title"), self.t("dialog_no_urls"))
             return
         
         self.urls_to_download = urls
@@ -705,7 +933,7 @@ class YoutubeDownloaderApp:
         self.is_downloading = True
         
         # Disable buttons during execution
-        self.download_btn.config(state="disabled", bg="#94A3B8", text="保存を実行しています...")
+        self.download_btn.config(state="disabled", bg="#94A3B8", text=self.t("btn_downloading"))
         self.change_dir_btn.config(state="disabled")
         self.clear_btn.config(state="disabled")
         
@@ -721,14 +949,14 @@ class YoutubeDownloaderApp:
         total_urls = len(self.urls_to_download)
         success_count = 0
         
-        self.queue.put(("LOG", "=== 保存処理を開始します ===", "info"))
+        self.queue.put(("LOG", self.t("log_start_all"), "info"))
         
         for idx, url in enumerate(self.urls_to_download):
-            self.queue.put(("START_ITEM", idx, url))
+            self.queue.put(("START_ITEM", idx, url, total_urls))
             
             try:
                 # 1. Fetch metadata (Title)
-                self.queue.put(("LOG", f"[{idx+1}/{total_urls}] 動画の情報を取得しています...", "info"))
+                self.queue.put(("LOG", self.t("log_fetching_info", curr=idx+1, total=total_urls), "info"))
                 
                 # YouTubeのBot認証（Sign in to confirm you're not a bot）対策
                 # ブラウザのCookieファイルロックを回避するため、スマホ公式アプリ通信に偽装
@@ -746,17 +974,17 @@ class YoutubeDownloaderApp:
                     'no_warnings': True,
                     'extractor_args': extractor_setting,
                 }
-                title = "不明なタイトル"
+                title = self.t("title_unknown")
                 with yt_dlp.YoutubeDL(ydl_opts_meta) as ydl:
                     try:
                         info = ydl.extract_info(url, download=False)
-                        title = info.get('title', '動画タイトルを取得できませんでした')
+                        title = info.get('title', self.t("title_fetch_failed"))
                     except Exception as e:
                         # Continue even if metadata retrieval fails
                         pass
                 
-                self.queue.put(("TITLE", idx, title))
-                self.queue.put(("LOG", f"タイトル: {title}", "info"))
+                self.queue.put(("TITLE", idx, title, total_urls))
+                self.queue.put(("LOG", self.t("log_title", title=title), "info"))
                 
                 # Progress hook wrapper
                 def progress_hook(d):
@@ -777,9 +1005,9 @@ class YoutubeDownloaderApp:
                             except ValueError:
                                 percent = 0.0
                         
-                        self.queue.put(("PROGRESS", idx, percent, speed, eta))
+                        self.queue.put(("PROGRESS", idx, percent, speed, eta, total_urls))
                     elif d['status'] == 'finished':
-                        self.queue.put(("MERGING", idx))
+                        self.queue.put(("MERGING", idx, total_urls))
                 
                 # 2. Start download
                 ydl_opts = {
@@ -809,11 +1037,11 @@ class YoutubeDownloaderApp:
                 # Clean up error messages for user presentation
                 err_msg = str(e)
                 if "Sign in to confirm you’re not a bot" in err_msg:
-                    friendly_err = "YouTubeによるロボット確認（認証制限）が発生しました。"
+                    friendly_err = self.t("err_bot")
                 elif "Unable to download webpage" in err_msg:
-                    friendly_err = "インターネットに接続されていないか、アドレスが間違っています。"
+                    friendly_err = self.t("err_network")
                 elif "Incomplete data received" in err_msg:
-                    friendly_err = "通信が切断されました。もう一度お試しください。"
+                    friendly_err = self.t("err_disconnect")
                 else:
                     # Simplify technical traceback
                     friendly_err = err_msg.split('\n')[0]
@@ -840,49 +1068,55 @@ class YoutubeDownloaderApp:
                 self.append_log(text, tag)
                 
             elif msg_type == "START_ITEM":
-                _, idx, url = msg
+                idx = msg[1]
+                url = msg[2]
+                total = msg[3] if len(msg) > 3 else len(self.urls_to_download)
                 self.current_download_idx = idx
-                total = len(self.urls_to_download)
                 self.status_label.config(
-                    text=f"[{idx+1}/{total}] 動画を保存中... (アドレス: {url[:45]}...)", 
+                    text=self.t("status_downloading_url", curr=idx+1, total=total, url=url[:45]), 
                     fg="#1E3A8A"
                 )
-                self.append_log(f"\n--- {idx+1}本目の保存処理を開始 ---", "info")
+                self.append_log(self.t("log_start_item", curr=idx+1, total=total), "info")
                 
             elif msg_type == "TITLE":
-                _, idx, title = msg
+                idx = msg[1]
+                title = msg[2]
+                total = msg[3] if len(msg) > 3 else len(self.urls_to_download)
                 self.status_label.config(
-                    text=f"[{idx+1}/{len(self.urls_to_download)}] 保存中: {title}", 
+                    text=self.t("status_downloading_title", curr=idx+1, total=total, title=title), 
                     fg="#1E3A8A"
                 )
                 
             elif msg_type == "PROGRESS":
-                _, idx, percent, speed, eta = msg
+                idx = msg[1]
+                percent = msg[2]
+                speed = msg[3]
+                eta = msg[4]
+                total = msg[5] if len(msg) > 5 else len(self.urls_to_download)
                 self.progress_bar['value'] = percent
-                total = len(self.urls_to_download)
                 self.status_label.config(
-                    text=f"[{idx+1}/{total}] 保存中: {percent:.1f}% (速度: {speed} | 残り時間: {eta})",
+                    text=self.t("status_progress", curr=idx+1, total=total, percent=percent, speed=speed, eta=eta),
                     fg="#1E293B"
                 )
                 
             elif msg_type == "MERGING":
-                _, idx = msg
+                idx = msg[1]
+                total = msg[2] if len(msg) > 2 else len(self.urls_to_download)
                 self.progress_bar['value'] = 100
-                total = len(self.urls_to_download)
                 self.status_label.config(
-                    text=f"[{idx+1}/{total}] 画質と音声を綺麗に結合しています... しばらくお待ちください", 
+                    text=self.t("status_merging", curr=idx+1, total=total), 
                     fg="#C2410C"
                 )
-                self.append_log("動画と音声を綺麗に結合しています...", "info")
+                self.append_log(self.t("log_merging"), "info")
                 
             elif msg_type == "SUCCESS_ITEM":
                 _, idx, title, url, filepath = msg
-                self.append_log(f"【保存完了】「{title}」を保存しました！", "success")
+                self.append_log(self.t("log_success_item", title=title), "success")
                 self.save_history(title, url, "正常", filepath)
                 
             elif msg_type == "ERROR_ITEM":
                 _, idx, err, url, title = msg
-                self.append_log(f"【保存失敗】エラー内容: {err}", "error")
+                self.append_log(self.t("log_error_item", err=err), "error")
                 self.save_history(title, url, "失敗", "")
                 
             elif msg_type == "FINISHED_ALL":
@@ -891,21 +1125,27 @@ class YoutubeDownloaderApp:
                 self.progress_bar['value'] = 100
                 
                 # Re-enable controls
-                self.download_btn.config(state="normal", bg="#22C55E", text="🚀 動画の保存を開始する（ダウンロード）")
+                self.download_btn.config(state="normal", bg="#22C55E", text=self.t("btn_download"))
                 self.change_dir_btn.config(state="normal")
                 self.clear_btn.config(state="normal")
                 
                 # Final Status display
-                result_text = f"処理終了： {total}件中 {success}件の保存に成功しました！"
+                result_text = self.t("status_finished_result", total=total, success=success)
                 self.status_label.config(text=result_text, fg="#16A34A" if success == total else "#DC2626")
-                self.append_log(f"\n======================================", "info")
+                self.append_log("\n======================================", "info")
                 self.append_log(result_text, "success" if success == total else "warning")
                 
                 if success > 0:
-                    self.append_log("下の「保存したフォルダを開く」ボタンを押すと動画を確認できます。", "success")
-                    messagebox.showinfo("完了", f"動画の保存が完了しました！\n（成功 {success}件 / 全体 {total}件）")
+                    self.append_log(self.t("log_open_dir_hint"), "success")
+                    messagebox.showinfo(
+                        self.t("dialog_finish_success_title"), 
+                        self.t("dialog_finish_success_msg", success=success, total=total)
+                    )
                 else:
-                    messagebox.showerror("失敗", "動画の保存に失敗しました。詳細ログを確認してください。")
+                    messagebox.showerror(
+                        self.t("dialog_finish_fail_title"), 
+                        self.t("dialog_finish_fail_msg")
+                    )
             
             self.queue.task_done()
             
@@ -925,7 +1165,10 @@ if __name__ == "__main__":
             pass
 
     root = tk.Tk()
-    app = YoutubeDownloaderApp(root)
+    app = WebMovieDownloaderApp(root)
     # Set default log message
-    app.append_log("[準備完了] 保存を開始できます", "success")
+    app.append_log(app.t("log_ready"), "success")
     root.mainloop()
+
+# Backwards compatibility alias
+YoutubeDownloaderApp = WebMovieDownloaderApp

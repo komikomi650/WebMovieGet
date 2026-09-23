@@ -1,2 +1,2 @@
 @echo off
-start pythonw "%~dp0YoutubeMovieGet.pyw"
+start pythonw "%~dp0WebMovieGet.pyw"

@@ -55,15 +55,15 @@ PC操作に自信がない方でも、最も簡単に準備ができる方法で
 
 #### 3. FFmpeg のダウンロードと配置
 - FFmpegの配布サイト（ https://www.gyan.dev/ffmpeg/builds/ ）から「`ffmpeg-release-essentials.zip`」等のパッケージをダウンロードし、解凍します。
-- 解凍したフォルダの `bin` フォルダ内にある **`ffmpeg.exe`** と **`ffprobe.exe`** をコピーし、本ツールのプログラム（`YoutubeMovieGet.pyw`）と**同じフォルダの中に直接貼り付けて配置**してください。
+- 解凍したフォルダの `bin` フォルダ内にある **`ffmpeg.exe`** と **`ffprobe.exe`** をコピーし、本ツールのプログラム（`WebMovieGet.pyw`）と**同じフォルダの中に直接貼り付けて配置**してください。
 
 ---
 
 ## 起動方法
 
-1. `YoutubeMovieGet` フォルダを開きます。
-2. **`run.bat`** ファイルをダブルクリックします。
-3. アプリケーション画面（「かんたん YouTube動画保存」）が自動で立ち上がります。
+1. `WebMovieGet` フォルダを開きます。
+2. **`run.bat`** ファイルをダブルクリックします。（または `python WebMovieGet.pyw` を実行）
+3. アプリケーション画面（「かんたん 動画保存」）が自動で立ち上がります。
 
 ---
 
@@ -78,7 +78,7 @@ pip install -U yt-dlp
 
 ### Q. 「FFmpegが見つかりません」というエラーが出る、または保存された動画の画質が粗い
 高画質動画と音声の結合を行う「FFmpeg」が正しく認識されていません。
-本ツールのフォルダ（`YoutubeMovieGet`）の中に、`ffmpeg.exe` と `ffprobe.exe` が正しく配置されているか確認してください。
+本ツールのフォルダ（`WebMovieGet`）の中に、`ffmpeg.exe` と `ffprobe.exe` が正しく配置されているか確認してください。
 
 ### Q. 「Sign in to confirm you’re not a bot」というエラーが出る
 YouTube側のBot認証（ロボット判定）に引っかかっている状態です。
