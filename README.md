@@ -41,6 +41,8 @@ It packages the raw power of `yt-dlp` and `FFmpeg` into a **sleek, intuitive Win
   Paste multiple video URLs or entire playlist links. The app fetches titles, queues them up, and downloads them one by one in the background.
 * **🎥 Crystal Clear 1080p, 4K, 8K & Audio Merging**  
   Leverages embedded `FFmpeg` to seamlessly merge the highest quality adaptive video and audio streams into clean `.mp4` or `.mkv` files.
+* **🎵 MP4 Video & MP3 Audio Extraction**  
+  Easily toggle between full video (`.mp4`) and audio-only extraction (`.mp3` at 192 kbps) with a single click — perfect for music, podcasts, and offline listening.
 * **📊 Real-Time Progress & Speed Metrics**  
   Live download progress bar, current transfer speed, ETA, and real-time console log view so you always know what's happening.
 * **⚡ 100% Free & Open Source**  

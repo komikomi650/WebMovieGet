@@ -58,6 +58,9 @@ I18N = {
         "step1_title": "手順 1： 保存したい動画のアドレス（URL）を貼り付ける",
         "step1_sub": "※ 複数の動画を一度に保存したい場合は、1行に1つずつ貼り付けてください。",
         "step2_title": "手順 2： 動画を保存する場所（フォルダ）を確認する",
+        "step3_title": "手順 3： 保存する形式を選ぶ（動画 または 音声のみ）",
+        "format_video": "🎬 動画で保存（MP4 - 映像と音声）",
+        "format_audio": "🎵 音声のみ保存（MP3 - 音楽・ラジオ・BGM）",
         "btn_change_dir": "📂 場所を変える",
         "btn_download": "🚀 動画の保存を開始する（ダウンロード）",
         "btn_downloading": "保存を実行しています...",
@@ -97,31 +100,36 @@ I18N = {
         "title_unknown": "不明なタイトル",
         "title_fetch_failed": "動画タイトルを取得できませんでした",
         "log_title": "タイトル: {title}",
-        "status_downloading_url": "[{curr}/{total}] 動画を保存中... (アドレス: {url}...)",
+        "status_downloading_url": "[{curr}/{total}] 保存中... (アドレス: {url}...)",
         "log_start_item": "\n--- {curr}本目の保存処理を開始 ---",
         "status_downloading_title": "[{curr}/{total}] 保存中: {title}",
         "status_progress": "[{curr}/{total}] 保存中: {percent:.1f}% (速度: {speed} | 残り時間: {eta})",
         "status_merging": "[{curr}/{total}] 画質と音声を綺麗に結合しています... しばらくお待ちください",
         "log_merging": "動画と音声を綺麗に結合しています...",
+        "status_converting_audio": "[{curr}/{total}] 音声を高音質MP3に変換中... しばらくお待ちください",
+        "log_converting_audio": "音声データを高音質MP3に変換しています...",
         "log_success_item": "【保存完了】「{title}」を保存しました！",
         "log_error_item": "【保存失敗】エラー内容: {err}",
         "status_finished_result": "処理終了： {total}件中 {success}件の保存に成功しました！",
-        "log_open_dir_hint": "下の「保存したフォルダを開く」ボタンを押すと動画を確認できます。",
+        "log_open_dir_hint": "下の「保存したフォルダを開く」ボタンを押すと保存したファイルを確認できます。",
         "dialog_finish_success_title": "完了",
-        "dialog_finish_success_msg": "動画の保存が完了しました！\n（成功 {success}件 / 全体 {total}件）",
+        "dialog_finish_success_msg": "ファイルの保存が完了しました！\n（成功 {success}件 / 全体 {total}件）",
         "dialog_finish_fail_title": "失敗",
-        "dialog_finish_fail_msg": "動画の保存に失敗しました。詳細ログを確認してください。",
+        "dialog_finish_fail_msg": "保存に失敗しました。詳細ログを確認してください。",
         "err_bot": "YouTubeによるロボット確認（認証制限）が発生しました。",
         "err_network": "インターネットに接続されていないか、アドレスが間違っています。",
         "err_disconnect": "通信が切断されました。もう一度お試しください。"
     },
     "en": {
-        "app_title": "WebMovieGet - Video Downloader",
+        "app_title": "WebMovieGet - Video & Audio Downloader",
         "header_title": "📥 WebMovieGet",
-        "header_desc": "Paste web video URLs and click 'Start Download' to easily save videos to your PC.",
+        "header_desc": "Paste web video URLs and click 'Start Download' to easily save videos or MP3 audio to your PC.",
         "step1_title": "Step 1: Paste video URLs to download",
         "step1_sub": "* Paste one URL per line to download multiple videos sequentially.",
         "step2_title": "Step 2: Confirm save location (folder)",
+        "step3_title": "Step 3: Choose download format (Video or Audio only)",
+        "format_video": "🎬 Video (MP4 - Video & Audio)",
+        "format_audio": "🎵 Audio only (MP3 - Music / Podcast / Radio)",
         "btn_change_dir": "📂 Browse Folder",
         "btn_download": "🚀 Start Download",
         "btn_downloading": "Downloading... Please wait",
@@ -142,13 +150,13 @@ I18N = {
         "history_status_fail": "🔴 Failed",
         "btn_play": "▶ Play",
         "dialog_history_clear_title": "Clear History",
-        "dialog_history_clear_msg": "Are you sure you want to clear the download history?\n(Downloaded video files will not be deleted)",
+        "dialog_history_clear_msg": "Are you sure you want to clear the download history?\n(Downloaded files will not be deleted)",
         "dialog_play_err_title": "Error",
-        "dialog_play_no_path": "No file path recorded for this video.",
-        "dialog_play_failed": "Failed to play video.\nDetails: {err}",
+        "dialog_play_no_path": "No file path recorded for this item.",
+        "dialog_play_failed": "Failed to play file.\nDetails: {err}",
         "dialog_file_not_found_title": "File Not Found",
-        "dialog_file_not_found_msg": "Video file not found.\nThe file may have been moved or deleted.\nPlease check your save folder.",
-        "dialog_select_dir_title": "Select a folder to save videos",
+        "dialog_file_not_found_msg": "File not found.\nThe file may have been moved or deleted.\nPlease check your save folder.",
+        "dialog_select_dir_title": "Select a folder to save files",
         "log_dir_changed": "Save location changed to: {path}",
         "dialog_dir_not_found": "Save folder not found.",
         "dialog_warning_title": "Warning",
@@ -157,9 +165,9 @@ I18N = {
         "dialog_input_err_title": "Input Error",
         "dialog_no_urls": "No video URLs provided.\nPlease paste video URLs into Step 1.",
         "log_start_all": "=== Starting download process ===",
-        "log_fetching_info": "[{curr}/{total}] Fetching video information...",
+        "log_fetching_info": "[{curr}/{total}] Fetching media information...",
         "title_unknown": "Unknown Title",
-        "title_fetch_failed": "Could not retrieve video title",
+        "title_fetch_failed": "Could not retrieve media title",
         "log_title": "Title: {title}",
         "status_downloading_url": "[{curr}/{total}] Downloading... (URL: {url}...)",
         "log_start_item": "\n--- Starting download {curr}/{total} ---",
@@ -167,10 +175,12 @@ I18N = {
         "status_progress": "[{curr}/{total}] Downloading: {percent:.1f}% (Speed: {speed} | ETA: {eta})",
         "status_merging": "[{curr}/{total}] Merging video and audio streams... Please wait",
         "log_merging": "Muxing high-definition video and audio streams...",
+        "status_converting_audio": "[{curr}/{total}] Converting audio to high-quality MP3... Please wait",
+        "log_converting_audio": "Converting audio stream to high-quality MP3...",
         "log_success_item": "[Completed] Successfully saved: {title}",
         "log_error_item": "[Failed] Error details: {err}",
-        "status_finished_result": "Finished: Successfully saved {success} of {total} videos!",
-        "log_open_dir_hint": "Click 'Open Save Folder' below to view your downloaded videos.",
+        "status_finished_result": "Finished: Successfully saved {success} of {total} files!",
+        "log_open_dir_hint": "Click 'Open Save Folder' below to view your downloaded files.",
         "dialog_finish_success_title": "Complete",
         "dialog_finish_success_msg": "Download complete!\n(Success: {success} / Total: {total})",
         "dialog_finish_fail_title": "Failed",
@@ -184,7 +194,7 @@ I18N = {
 class WebMovieDownloaderApp:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("1020x760")
+        self.root.geometry("1020x800")
         self.root.configure(bg="#F1F5F9")  # Soft gray-blue background
         
         # Config file path
@@ -194,8 +204,9 @@ class WebMovieDownloaderApp:
             base_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
         self.config_file = os.path.join(base_dir, "config.json")
         
-        # Load settings from config.json (save_dir and lang)
-        self.save_dir, self.current_lang = self.load_config()
+        # Load settings from config.json (save_dir, lang, and format)
+        self.save_dir, self.current_lang, self.download_format = self.load_config()
+        self.format_var = tk.StringVar(value=self.download_format)
         self.root.title(self.t("app_title"))
         
         # Thread communication queue
@@ -263,6 +274,12 @@ class WebMovieDownloaderApp:
         self.step1_sub.config(text=self.t("step1_sub"))
         self.step2_title.config(text=self.t("step2_title"))
         self.change_dir_btn.config(text=self.t("btn_change_dir"))
+        if hasattr(self, 'step3_title'):
+            self.step3_title.config(text=self.t("step3_title"))
+        if hasattr(self, 'radio_mp4'):
+            self.radio_mp4.config(text=self.t("format_video"))
+        if hasattr(self, 'radio_mp3'):
+            self.radio_mp3.config(text=self.t("format_audio"))
         if not self.is_downloading:
             self.download_btn.config(text=self.t("btn_download"))
         else:
@@ -278,15 +295,17 @@ class WebMovieDownloaderApp:
         self.update_history_ui()
 
     def load_config(self):
-        """Load directory and language settings, with OS auto-detection fallback."""
+        """Load directory, language, and format settings, with OS auto-detection fallback."""
         saved_path = ""
         saved_lang = ""
+        saved_format = "mp4"
         if os.path.exists(self.config_file):
             try:
                 with open(self.config_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     saved_path = data.get("save_dir", "")
                     saved_lang = data.get("lang", "")
+                    saved_format = data.get("format", "mp4")
             except Exception:
                 pass
         
@@ -304,16 +323,22 @@ class WebMovieDownloaderApp:
                 lang = "ja" if loc.lower().startswith("ja") else "en"
             except Exception:
                 lang = "ja"
+
+        # Format fallback
+        if saved_format not in ("mp4", "mp3"):
+            saved_format = "mp4"
                 
-        return saved_path, lang
+        return saved_path, lang, saved_format
 
     def save_config(self):
-        """Save settings (save_dir and lang) to config.json."""
+        """Save settings (save_dir, lang, and format) to config.json."""
         try:
+            fmt = self.format_var.get() if hasattr(self, 'format_var') else getattr(self, 'download_format', 'mp4')
             with open(self.config_file, "w", encoding="utf-8") as f:
                 json.dump({
                     "save_dir": self.save_dir,
-                    "lang": self.current_lang
+                    "lang": self.current_lang,
+                    "format": fmt
                 }, f, indent=2, ensure_ascii=False)
         except Exception:
             pass
@@ -504,7 +529,54 @@ class WebMovieDownloaderApp:
         self.change_dir_btn.pack(side="right", ipady=2, ipadx=10)
         self.make_button_hoverable(self.change_dir_btn, "#CBD5E1", "#E2E8F0")
         
-        # Card 3: Download Button
+        # Card 3: Format Selection (MP4 / MP3)
+        self.card_format = tk.Frame(left_container, bg="#FFFFFF", padx=15, pady=12)
+        self.card_format.pack(fill="x", pady=(0, 15))
+        
+        self.step3_title = tk.Label(
+            self.card_format, 
+            text=self.t("step3_title"), 
+            font=("Yu Gothic", 13, "bold"), 
+            bg="#FFFFFF", 
+            fg="#0F172A",
+            anchor="w"
+        )
+        self.step3_title.pack(fill="x", pady=(0, 8))
+        
+        format_options_frame = tk.Frame(self.card_format, bg="#FFFFFF")
+        format_options_frame.pack(fill="x")
+        
+        self.radio_mp4 = tk.Radiobutton(
+            format_options_frame,
+            text=self.t("format_video"),
+            variable=self.format_var,
+            value="mp4",
+            font=("Yu Gothic", 11, "bold"),
+            bg="#FFFFFF",
+            fg="#1E293B",
+            activebackground="#FFFFFF",
+            selectcolor="#FFFFFF",
+            command=self.save_config,
+            cursor="hand2"
+        )
+        self.radio_mp4.pack(side="left", padx=(0, 20))
+        
+        self.radio_mp3 = tk.Radiobutton(
+            format_options_frame,
+            text=self.t("format_audio"),
+            variable=self.format_var,
+            value="mp3",
+            font=("Yu Gothic", 11, "bold"),
+            bg="#FFFFFF",
+            fg="#1E293B",
+            activebackground="#FFFFFF",
+            selectcolor="#FFFFFF",
+            command=self.save_config,
+            cursor="hand2"
+        )
+        self.radio_mp3.pack(side="left")
+        
+        # Download Button
         self.download_btn = tk.Button(
             left_container, 
             text=self.t("btn_download"), 
@@ -936,6 +1008,10 @@ class WebMovieDownloaderApp:
         self.download_btn.config(state="disabled", bg="#94A3B8", text=self.t("btn_downloading"))
         self.change_dir_btn.config(state="disabled")
         self.clear_btn.config(state="disabled")
+        if hasattr(self, 'radio_mp4'):
+            self.radio_mp4.config(state="disabled")
+        if hasattr(self, 'radio_mp3'):
+            self.radio_mp3.config(state="disabled")
         
         # Reset progress bar
         self.progress_bar['value'] = 0
@@ -948,6 +1024,7 @@ class WebMovieDownloaderApp:
         """Background thread executing the sequential downloads."""
         total_urls = len(self.urls_to_download)
         success_count = 0
+        target_format = self.format_var.get() if hasattr(self, 'format_var') else "mp4"
         
         self.queue.put(("LOG", self.t("log_start_all"), "info"))
         
@@ -1007,26 +1084,50 @@ class WebMovieDownloaderApp:
                         
                         self.queue.put(("PROGRESS", idx, percent, speed, eta, total_urls))
                     elif d['status'] == 'finished':
-                        self.queue.put(("MERGING", idx, total_urls))
+                        if target_format == "mp3":
+                            self.queue.put(("CONVERTING_AUDIO", idx, total_urls))
+                        else:
+                            self.queue.put(("MERGING", idx, total_urls))
                 
                 # 2. Start download
-                ydl_opts = {
-                    'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-                    'outtmpl': os.path.join(self.save_dir, '%(title)s.%(ext)s'),
-                    'progress_hooks': [progress_hook],
-                    'noplaylist': True,
-                    'quiet': True,
-                    'no_warnings': True,
-                    'extractor_args': extractor_setting,
-                }
+                if target_format == "mp3":
+                    ydl_opts = {
+                        'format': 'bestaudio/best',
+                        'outtmpl': os.path.join(self.save_dir, '%(title)s.%(ext)s'),
+                        'postprocessors': [{
+                            'key': 'FFmpegExtractAudio',
+                            'preferredcodec': 'mp3',
+                            'preferredquality': '192',
+                        }],
+                        'progress_hooks': [progress_hook],
+                        'noplaylist': True,
+                        'quiet': True,
+                        'no_warnings': True,
+                        'extractor_args': extractor_setting,
+                    }
+                else:
+                    ydl_opts = {
+                        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+                        'outtmpl': os.path.join(self.save_dir, '%(title)s.%(ext)s'),
+                        'progress_hooks': [progress_hook],
+                        'noplaylist': True,
+                        'quiet': True,
+                        'no_warnings': True,
+                        'extractor_args': extractor_setting,
+                    }
                 
                 filepath = ""
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     try:
                         info_real = ydl.extract_info(url, download=False)
-                        filepath = ydl.prepare_filename(info_real)
+                        prepared = ydl.prepare_filename(info_real)
+                        if target_format == "mp3":
+                            filepath = os.path.splitext(prepared)[0] + ".mp3"
+                        else:
+                            filepath = prepared
                     except Exception:
-                        filepath = os.path.join(self.save_dir, f"{title}.mp4")
+                        ext = ".mp3" if target_format == "mp3" else ".mp4"
+                        filepath = os.path.join(self.save_dir, f"{title}{ext}")
                     
                     ydl.download([url])
                 
@@ -1109,6 +1210,16 @@ class WebMovieDownloaderApp:
                 )
                 self.append_log(self.t("log_merging"), "info")
                 
+            elif msg_type == "CONVERTING_AUDIO":
+                idx = msg[1]
+                total = msg[2] if len(msg) > 2 else len(self.urls_to_download)
+                self.progress_bar['value'] = 100
+                self.status_label.config(
+                    text=self.t("status_converting_audio", curr=idx+1, total=total), 
+                    fg="#7C3AED"
+                )
+                self.append_log(self.t("log_converting_audio"), "info")
+                
             elif msg_type == "SUCCESS_ITEM":
                 _, idx, title, url, filepath = msg
                 self.append_log(self.t("log_success_item", title=title), "success")
@@ -1128,6 +1239,10 @@ class WebMovieDownloaderApp:
                 self.download_btn.config(state="normal", bg="#22C55E", text=self.t("btn_download"))
                 self.change_dir_btn.config(state="normal")
                 self.clear_btn.config(state="normal")
+                if hasattr(self, 'radio_mp4'):
+                    self.radio_mp4.config(state="normal")
+                if hasattr(self, 'radio_mp3'):
+                    self.radio_mp3.config(state="normal")
                 
                 # Final Status display
                 result_text = self.t("status_finished_result", total=total, success=success)
